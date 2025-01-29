@@ -1,0 +1,9 @@
+Background: User login at https://athena.geminisolutions.com/login
+User Types user id : 'test@geminisolutions.com'
+User types password : 'testpassword' and logs in
+redirect to : https://athena.geminisolutions.com/app/candidate/courses
+wait for user to navigate successfully
+Scenario Outline : Test to verify courses and training time
+Verify Total Courses, Completed Courses, Ongoing Courses and Total Training Time are visible.
+Check if user has completed more than 1 course
+Also verify that total training time is more than 30 min.

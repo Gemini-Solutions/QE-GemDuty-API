@@ -1,0 +1,2590 @@
+{
+	"info": {
+		"_postman_id": "09118f59-1008-4318-adfe-7f69209c7b45",
+		"name": "in.co.gorest",
+		"description": "Get all users post",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11095937",
+		"_collection_link": "https://www.postman.com/cloudy-zodiac-713282/workspace/gorest-api-testing/collection/23689192-09118f59-1008-4318-adfe-7f69209c7b45?action=share&source=collection_link&creator=11095937"
+	},
+	"item": [
+		{
+			"name": "./users",
+			"item": [
+				{
+					"name": "[users-001] Create new user with valid JSON",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);\r",
+									"});\r",
+									"var jsonData = JSON.parse(responseBody);\r",
+									"pm.globals.set(\"usersID\", jsonData.data.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\", \r\n    \"gender\": \"male\", \r\n    \"email\": \"{{$randomExampleEmail}}\", \r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-002] Create new user with invalid JSON",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {\r",
+									"    pm.response.to.have.status(422);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-003] Create new user with existing JSON data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {\r",
+									"    pm.response.to.have.status(422);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Elbert Gulgowski\",\r\n    \"email\": \"Webster_Schaefer77@example.net\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-004] Get all users without parameter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-005] Get all users with parameter page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}?page=2",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-006] Get all users with invalid string parameter page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Pagination-Limit",
+								"value": "20",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}?page=abc",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "abc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-007] Get all users with invalid special char parameter page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Pagination-Limit",
+								"value": "20",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}?page=???",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "???"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-008] Get all users with invalid parameter gender",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Pagination-Limit",
+								"value": "20",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}?gender=trans",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"query": [
+								{
+									"key": "gender",
+									"value": "trans"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-009] Get single user with valid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/1",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-010] Get unavailable user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/0",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-011] Get single user with invalid string ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/abc",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"abc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-012] Get single user with invalid special char ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/***",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"***"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-013] Put update user with valid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Edward Cullen\", \r\n    \"gender\": \"male\", \r\n    \"email\": \"edwardcullen@yahoo.com\", \r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/1621",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"1621"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-014] Put update unavailable user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/0",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-015] Put update user with invalid JSON",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/{{usersID}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"{{usersID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "./posts",
+			"item": [
+				{
+					"name": "[posts-001] create a user post with valid user ID and valid body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Successful POST request\", function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+									"});",
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"postsID\", jsonData.data.id);",
+									"pm.test(\"Response body id value notNull\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.id).is.not.null;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"{{$randomLoremSentence}}\",\n    \"body\":\"{{$randomLoremSentences}}}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/{{usersID}}{{postsEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"{{usersID}}{{postsEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-002] create a user post with valid user ID and invalid body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									"pm.test(\"Body contain message and can't be blank\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"message\");",
+									"    pm.expect(pm.response.text()).to.include(\"can't be blank\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"\",\n    \"body\":\"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/{{usersID}}{{postsEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"{{usersID}}{{postsEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-003] create a user post with valid user ID without body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									"pm.test(\"Body contain string message cant be blank\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"message\");",
+									"    pm.expect(pm.response.text()).to.include(\"can't be blank\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/{{usersID}}{{postsEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"{{usersID}}{{postsEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-004] create a user post with invalid user ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									"pm.test(\"Body contain string user must exist\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"user\", \"must exist\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/{{usersEndpoint}}/@@/{{postsEndpoint}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"{{usersEndpoint}}",
+								"@@",
+								"{{postsEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-005] all users posts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response body data is not empty\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.value).to.not.eqls(null);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-006] all users posts with different pagination limit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Assert pagination limit is 15\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.meta.pagination.limit).to.eql(15);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Pagination-Limit",
+								"value": "15",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-007] all users posts with title contains \"auxilium\"",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"auxilium\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}?title=auxilium",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "auxilium"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-008] all users posts with body contains \"auxilium\"",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"auxilium\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}?body=auxilium",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"query": [
+								{
+									"key": "body",
+									"value": "auxilium"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-009] all users post with body contains non existence word",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Response body data is empty\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.eql([]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}?body=!@#$%",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"query": [
+								{
+									"key": "body",
+									"value": "!@"
+								}
+							],
+							"hash": "$%"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-010] all users post within valid page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response body return page 5\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.meta.pagination.page).to.eql(5);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}?page=5",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-011] all users post within invalid page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"Your test name\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.eql([]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}?page=aa",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "aa"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-012] posted post by using valid post ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response body data id is equal usersID\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    postsID = pm.globals.get(\"postsID\");",
+									"    pm.expect(jsonData.data.id).to.eql(postsID);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}/{{postsID}}",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"path": [
+								"{{postsID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-013]  posted post by using invalid post ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Resource not found\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}/aa",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"path": [
+								"aa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-014] posted post by using valid user's ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response body title and body not Null\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.title).to.not.null;",
+									"    pm.expect(jsonData.data.body).to.not.null;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/{{usersID}}{{postsEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"{{usersID}}{{postsEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-015] posted post by using valid user's ID but never post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"JSON body should return empty\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.eql([]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/2/{{postsEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"2",
+								"{{postsEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-016] posted post by using invalid user's ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"pm.test(\"JSON body should return empty\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data).to.eql([]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/aa{{postsEndpoint}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"aa{{postsEndpoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-017] update user post title and body with valid body by post ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Response body title is equals 'new title' and body is not null\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.title).to.eql(\"new title\");",
+									"    pm.expect(jsonData.data.body).to.not.null;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"new title\",\n    \"body\":\"{{$randomLoremSentences}}}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}/{{postsID}}",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"path": [
+								"{{postsID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-018] update user post title and body with valid body by invalid post ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"Message 'Resource not found' appear\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.message).to.eql(\"Resource not found\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"new title\",\n    \"body\":\"new body\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}/@@",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"path": [
+								"@@"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-019] update user post title and body with invalid body by post ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									"pm.test(\"'Cant be blank' message appear\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"can't be blank\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"\",\n    \"body\":\"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}/{{postsID}}",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"path": [
+								"{{postsID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-020] update user post title and body without body by post ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									"pm.test(\"'Cant be blank' message appear\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"can't be blank\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}/{{postsID}}",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"path": [
+								"{{postsID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-021] create new feature on user post by post ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"New feature 'test' apear\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.data.test).is.exist;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newFeature\":\"test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}/{{postsID}}",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"path": [
+								"{{postsID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Resouce ./posts API Test"
+		},
+		{
+			"name": "./comments",
+			"item": [
+				{
+					"name": "[comments-001]-POST one comment within valid json",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \"id\": 1547,\n            \"post_id\": {{postsID}},\n            \"name\": \"jduy\",\n            \"email\": \"pokokeemail@cling.com\",\n            \"body\": \"ini comment\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-002]-POST one comment within invalid json without id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \n            \"post_id\": {{postsID}},\n            \"name\": \"jduy\",\n            \"email\": \"pokokeemail@cling.com\",\n            \"body\": \"ini comment\"\n        }"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-003]-POST one comment within invalid json without post_id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \"id\": 1547,\n            \"name\": \"jduy\",\n            \"email\": \"pokokeemail@cling.com\",\n            \"body\": \"ini comment\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-004]-POST one comment within invalid json without name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \"id\": 1547,\n            \"post_id\": 1529,\n            \"email\": \"pokokeemail@cling.com\",\n            \"body\": \"ini comment\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-005]-POST one comment within invalid json without email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \"id\": 1547,\n            \"post_id\": 1529,\n            \"name\": \"jduy\",\n            \"body\": \"ini comment\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-006]-POST one comment within invalid json without body",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"id\": 1547,\n        \"post_id\": 1529,\n        \"name\": \"jduy\",\n        \"email\": \"pokokeemail@cling.com\"\n        \n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-007]-POST one comment with null json",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-008]-GET all  comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-009]-GET all  comments with invalid endpoint",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint1234}}",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint1234}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-010]-GET all users comments with body contains \"jduy\"",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}?name=jduy",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "jduy"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-011]-GET all users comments with body contains \"Nam deleniti earum\"",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}?body=ini comment",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"query": [
+								{
+									"key": "body",
+									"value": "ini comment"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-012]-GET all users comments with body contains number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}?body=234",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"query": [
+								{
+									"key": "body",
+									"value": "234"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-013]-GET all users comments with body contains Special character",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}?body=%23$%^%26",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"query": [
+								{
+									"key": "body",
+									"value": "%23$%^%26"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-014]-GET all users comments within valid page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}?page=20",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-015]-GET all users comments within invalid page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}?page=10000",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "10000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-016]-GET all users comments within valid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}?id=50",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-017]-GET all users comments within invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}?id=-5",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "-5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-018]-PUT one comment within valid json",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \n            \"name\": \"Rep. Akshita Malik\",\n            \"email\": \"rep_malik_akshita@quigley-ebert.co\",\n            \"body\": \"Id cupiditate repellendus. Rerum voluptatem ratione. Itaque eius est. Accusantium non id.\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}/50",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"path": [
+								"50"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-019]-PATCH one comment within valid json",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \"id\": 50,\n            \"post_id\": 62,\n            \"name\": \"Bhasri\",\n            \"email\": \"rep_malik_akshita@quigley-ebert.co\",\n            \"body\": \"Crit\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}/50",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"path": [
+								"50"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "deleteMethod",
+			"item": [
+				{
+					"name": "[comments-020]-DEL one comment with valid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}/201",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"path": [
+								"201"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[comments-021]-DEL one comment with inivalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n            \"id\": 50,\n            \"post_id\": 62,\n            \"name\": \"Bhasri\",\n            \"email\": \"rep_malik_akshita@quigley-ebert.co\",\n            \"body\": \"Id cupiditate repellendus. Rerum voluptatem ratione. Itaque eius est. Accusantium non id.\"\n        }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}{{commentsEndPoint}}/-5",
+							"host": [
+								"{{BASE_URL}}{{commentsEndPoint}}"
+							],
+							"path": [
+								"-5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[posts-023] user posts by invalid post ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"Resource not found\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}/@@",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"path": [
+								"@@"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user posts by invalid post ID",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{postsEndpoint}}/@@",
+									"host": [
+										"{{BASE_URL}}{{postsEndpoint}}"
+									],
+									"path": [
+										"@@"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "[posts-022] user posts by valid post ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{postsEndpoint}}/{{postsID}}",
+							"host": [
+								"{{BASE_URL}}{{postsEndpoint}}"
+							],
+							"path": [
+								"{{postsID}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "user posts by valid post ID",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}{{postsEndpoint}}/1601",
+									"host": [
+										"{{BASE_URL}}{{postsEndpoint}}"
+									],
+									"path": [
+										"1601"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "[users-016] Delete available user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/{{usersID}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"{{usersID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[users-017] Delete unavailable user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}{{usersEndpoint}}/{{usersID}}",
+							"host": [
+								"{{BASE_URL}}{{usersEndpoint}}"
+							],
+							"path": [
+								"{{usersID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "[misc-001] check ping rate of server",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "HEAD",
+				"header": [],
+				"url": {
+					"raw": "https://gorest.co.in",
+					"protocol": "https",
+					"host": [
+						"gorest",
+						"co",
+						"in"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{BearerToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
