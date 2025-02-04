@@ -3,6 +3,10 @@ import os
 import boto3
 import json
 from json_repair import repair_json
+from dotenv import load_dotenv
+
+# Load the environment variables from the .env file
+load_dotenv()
 # TODO : remove this - not getting used any where - merge this with call_anthropic_model -
 def call_aws_bedrock_llm(
     prompt,
@@ -14,8 +18,8 @@ def call_aws_bedrock_llm(
     bedrock_client = boto3.client(
         "bedrock-runtime",
         region_name="us-west-2",
-        # aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
-        # aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
+        aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+        aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY")
     )
 
     
